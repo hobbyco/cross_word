@@ -1,4 +1,7 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>크로스 퍼즐 게임</title>
   <style>
@@ -10,21 +13,26 @@
     }
     .container {
       display: flex;
+      flex-direction: column;
       gap: 20px;
+    }
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row;
+      }
     }
     .grid, .play-grid {
       display: grid;
-      grid-template-columns: repeat(5, 40px);
-      grid-template-rows: repeat(5, 40px);
+      grid-template-columns: repeat(5, minmax(32px, 40px));
+      grid-template-rows: repeat(5, minmax(32px, 40px));
       gap: 2px;
     }
     .cell {
-      width: 40px;
-      height: 40px;
+      width: 100%;
+      aspect-ratio: 1 / 1;
       border: 1px solid #ccc;
       text-align: center;
-      line-height: 40px;
-      font-size: 20px;
+      font-size: 16px;
       position: relative;
     }
     .black {
@@ -40,7 +48,7 @@
       height: 100%;
       border: none;
       text-align: center;
-      font-size: 20px;
+      font-size: inherit;
       background: transparent;
       text-transform: uppercase;
     }
@@ -78,6 +86,18 @@
       width: 30px;
       text-transform: uppercase;
     }
+    @media (max-width: 767px) {
+      .grid, .play-grid {
+        grid-template-columns: repeat(5, minmax(28px, 32px));
+        grid-template-rows: repeat(5, minmax(28px, 32px));
+      }
+      .cell {
+        font-size: 14px;
+      }
+      .clue-row input.answer-box {
+        width: 24px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -85,10 +105,10 @@
     <div>
       <h2 style="display: flex; align-items: center; gap: 8px;">🧩 퍼즐 만들기</h2>
       <div class="controls">
-        <button onclick="newGame()" style="display: none;">새 게임</button>
-<button id="lock-button" onclick="lockPuzzle()" style="display: none;">저장</button>
+        <button onclick="newGame()">새 게임</button>
+<button id="lock-button" onclick="lockPuzzle()">저장</button>
       </div>
-      <div id="grid" class="grid"><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div></div>
+      <div id="grid" class="grid"></div>
     </div>
     <div class="clues">
       <h3>가로</h3>
@@ -104,7 +124,7 @@
   <h2 style="display: flex; align-items: center; gap: 8px;">📝 퍼즐 풀기</h2>
 <div style="display: flex; align-items: flex-start; gap: 40px;">
   <div>
-    <div id="play-grid" class="play-grid"><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div><div class="cell black"></div></div>
+    <div id="play-grid" class="play-grid"></div>
 <div style="margin-top: 10px; text-align: center;">
   <button class="check-button" style="font-size: 12px; padding: 4px 8px;" onclick="checkAnswers()">정답 체크</button>
 </div>
@@ -368,7 +388,8 @@ function lockPuzzle() {
   document.getElementById('lock-button').style.display = 'none';
 
   // 저장용 HTML 만들기
-  const html = document.documentElement.outerHTML;
+  applyAnswers();
+      const html = document.documentElement.outerHTML;
   const blob = new Blob([html], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
 
@@ -387,6 +408,5 @@ function lockPuzzle() {
   URL.revokeObjectURL(url);
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
