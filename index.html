@@ -1,412 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
-  <title>크로스 퍼즐 게임</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    @media (min-width: 768px) {
-      .container {
-        flex-direction: row;
-      }
-    }
-    .grid, .play-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(32px, 40px));
-      grid-template-rows: repeat(5, minmax(32px, 40px));
-      gap: 2px;
-    }
-    .cell {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border: 1px solid #ccc;
-      text-align: center;
-      font-size: 16px;
-      position: relative;
-    }
-    .black {
-      background-color: black;
-      color: white;
-    }
-    .white {
-      background-color: white;
-      color: black;
-    }
-    .cell input {
-      width: 100%;
-      height: 100%;
-      border: none;
-      text-align: center;
-      font-size: inherit;
-      background: transparent;
-      text-transform: uppercase;
-    }
-    .number {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      font-size: 10px;
-    }
-    .clues {
-      flex: 1;
-    }
-    .clues h3 {
-      margin-top: 0;
-    }
-    .controls {
-      margin-bottom: 10px;
-    }
-    .controls button {
-      margin-right: 10px;
-    }
-    hr {
-      margin: 30px 0;
-    }
-    .check-button {
-      margin-top: 10px;
-    }
-    .clue-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 4px;
-      gap: 6px;
-    }
-    .clue-row input.answer-box {
-      width: 30px;
-      text-transform: uppercase;
-    }
-    @media (max-width: 767px) {
-      .grid, .play-grid {
-        grid-template-columns: repeat(5, minmax(28px, 32px));
-        grid-template-rows: repeat(5, minmax(28px, 32px));
-      }
-      .cell {
-        font-size: 14px;
-      }
-      .clue-row input.answer-box {
-        width: 24px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>크로스 워드 - 가로세로 낱말 퀴즈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 여기에 CSS 코드를 추가할 수 있습니다. */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <div>
-      <h2 style="display: flex; align-items: center; gap: 8px;">🧩 퍼즐 만들기</h2>
-      <div class="controls">
-        <button onclick="newGame()">새 게임</button>
-<button id="lock-button" onclick="lockPuzzle()">저장</button>
-      </div>
-      <div id="grid" class="grid"></div>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center my-8">
+            <h1 class="text-4xl font-bold text-gray-900">크로스 워드 - 가로세로 낱말 퀴즈 풀기</h1>
+        </header>
+
+        <!-- 메인 콘텐츠 섹션 -->
+        <main class="bg-white p-6 rounded-lg shadow-md text-center">
+            <h2 class="text-2xl font-semibold mb-4">
+                <a href="today_puzzle.html" class="text-blue-600 hover:text-blue-800 underline">
+                    오늘의 퍼즐
+                </a>
+            </h2>
+
+            <!-- 구분선 -->
+            <hr class="my-6 border-gray-300">
+
+            <!-- 더 풀어보기 섹션 -->
+            <h3 class="text-xl font-semibold mb-4">더 풀어보기</h3>
+            <ul class="space-y-2">
+                <li><a href="#" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">퍼즐 1</a></li>
+                <li><a href="#" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">퍼즐 2</a></li>
+                <li><a href="#" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">퍼즐 3</a></li>
+                <li><a href="#" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">퍼즐 4</a></li>
+                <li><a href="#" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">퍼즐 5</a></li>
+            </ul>
+        </main>
+        <!-- 메인 콘텐츠 섹션 끝 -->
+
+        <!-- 푸터 섹션 -->
+        <footer class="text-center mt-8 mb-4">
+            <a href="https://naver.me/5TQM65TX" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600 underline">
+                네이버폼으로 피드백 보내기 (뉴스레터 구독신청)
+            </a>
+        </footer>
+        <!-- 푸터 섹션 끝 -->
+
     </div>
-    <div class="clues">
-      <h3>가로</h3>
-      <ul id="across"></ul>
-      <h3>세로</h3>
-      <ul id="down"></ul>
-      <button onclick="applyAnswers()">정답 반영</button>
-    </div>
-  </div>
 
-  <hr>
+    <script>
+        // 여기에 JavaScript 코드를 추가할 수 있습니다.
+        console.log("페이지가 로드되었습니다.");
+    </script>
 
-  <h2 style="display: flex; align-items: center; gap: 8px;">📝 퍼즐 풀기</h2>
-<div style="display: flex; align-items: flex-start; gap: 40px;">
-  <div>
-    <div id="play-grid" class="play-grid"></div>
-<div style="margin-top: 10px; text-align: center;">
-  <button class="check-button" style="font-size: 12px; padding: 4px 8px;" onclick="checkAnswers()">정답 체크</button>
-</div>
-</div>
-  <div class="clues">
-    <h3>가로</h3>
-    <ul id="play-across"></ul>
-    <h3>세로</h3>
-    <ul id="play-down"></ul>
-  </div>
-</div>
-  
-
-  <script>
-    const size = 5;
-    let grid = [];
-    let clues = { across: [], down: [] };
-    let isLocked = true;
-
-    function createEmptyGrid() {
-      grid = [];
-      for (let r = 0; r < size; r++) {
-        const row = [];
-        for (let c = 0; c < size; c++) {
-          row.push({ type: 'black', letter: '', number: null });
-        }
-        grid.push(row);
-      }
-    }
-
-    function renderGrid() {
-      const gridEl = document.getElementById('grid');
-      gridEl.innerHTML = '';
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          const cell = grid[r][c];
-          const div = document.createElement('div');
-          div.className = `cell ${cell.type}`;
-          div.onclick = () => { if (!isLocked) toggleCell(r, c); };
-          if (cell.type === 'white') {
-            const input = document.createElement('input');
-            input.maxLength = 1;
-            input.value = cell.letter;
-            input.oninput = e => {
-              cell.letter = e.target.value.toUpperCase();
-            };
-            div.appendChild(input);
-            if (cell.number) {
-              const num = document.createElement('div');
-              num.className = 'number';
-              num.innerText = cell.number;
-              div.appendChild(num);
-            }
-          }
-          gridEl.appendChild(div);
-        }
-      }
-    }
-
-    function renderPlayGrid() {
-      const playGridEl = document.getElementById('play-grid');
-      playGridEl.innerHTML = '';
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          const cell = grid[r][c];
-          const div = document.createElement('div');
-          div.className = `cell ${cell.type}`;
-          if (cell.type === 'white') {
-            const input = document.createElement('input');
-            input.maxLength = 1;
-            input.dataset.row = r;
-            input.dataset.col = c;
-            input.value = '';
-            div.appendChild(input);
-            if (cell.number) {
-              const num = document.createElement('div');
-              num.className = 'number';
-              num.innerText = cell.number;
-              div.appendChild(num);
-            }
-          }
-          playGridEl.appendChild(div);
-        }
-      }
-    }
-
-    function toggleCell(r, c) {
-      const cell = grid[r][c];
-      if (cell.type === 'black') {
-        cell.type = 'white';
-      } else {
-        cell.type = 'black';
-        cell.letter = '';
-        cell.number = null;
-      }
-      assignClueNumbers();
-      renderGrid();
-      renderClues();
-      renderPlayGrid();
-    }
-
-    function assignClueNumbers() {
-      let count = 1;
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          const cell = grid[r][c];
-          cell.number = null;
-        }
-      }
-      clues = { across: [], down: [] };
-
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          const cell = grid[r][c];
-          if (cell.type !== 'white') continue;
-
-          const startsAcross = c === 0 || grid[r][c - 1].type === 'black';
-          const acrossContinues = c + 1 < size && grid[r][c + 1].type === 'white';
-
-          const startsDown = r === 0 || grid[r - 1][c].type === 'black';
-          const downContinues = r + 1 < size && grid[r + 1][c].type === 'white';
-
-          if ((startsAcross && acrossContinues) || (startsDown && downContinues)) {
-            cell.number = count;
-            if (startsAcross && acrossContinues)
-              clues.across.push({ number: count, row: r, col: c, clue: '', answer: '' });
-            if (startsDown && downContinues)
-              clues.down.push({ number: count, row: r, col: c, clue: '', answer: '' });
-            count++;
-          }
-        }
-      }
-    }
-
-    function renderClues() {
-      function getAnswerLength(direction, clue) {
-        let length = 0;
-        if (direction === 'across') {
-          for (let c = clue.col; c < size && grid[clue.row][c].type === 'white'; c++) {
-            length++;
-          }
-        } else {
-          for (let r = clue.row; r < size && grid[r][clue.col].type === 'white'; r++) {
-            length++;
-          }
-        }
-        return length;
-      }
-
-      document.getElementById('across').innerHTML = clues.across.map(clue => {
-  const len = getAnswerLength('across', clue);
-  const inputs = Array.from({ length: len }, (_, i) => `<input type="text" maxlength="1" class="answer-box" data-num="${i}" data-clue="across-${clue.number}" oninput="updateAnswer(${clue.number}, 'across')">`).join('');
-  return `<li class="clue-row">${clue.number}. <input type="text" placeholder="힌트 입력" oninput="updateClue(${clue.number}, 'across', this.value)"> ${inputs}</li>`;
-}).join('');
-
-      document.getElementById('down').innerHTML = clues.down.map(clue => {
-  const len = getAnswerLength('down', clue);
-  const inputs = Array.from({ length: len }, (_, i) => `<input type="text" maxlength="1" class="answer-box" data-num="${i}" data-clue="down-${clue.number}" oninput="updateAnswer(${clue.number}, 'down')">`).join('');
-  return `<li class="clue-row">${clue.number}. <input type="text" placeholder="힌트 입력" oninput="updateClue(${clue.number}, 'down', this.value)"> ${inputs}</li>`;
-}).join('');
-    }
-
-    function updateAnswer(number, direction) {
-      const clueList = clues[direction];
-      const clue = clueList.find(c => c.number === number);
-      if (clue) {
-        const inputs = document.querySelectorAll(`.answer-box[data-clue='${direction}-${number}']`);
-        clue.answer = Array.from(inputs).map(input => input.value.toUpperCase()).join('');
-      }
-    }
-
-    function applyAnswers() {
-      for (const dir of ['across', 'down']) {
-        for (const clue of clues[dir]) {
-          const ans = clue.answer;
-          if (dir === 'across') {
-            for (let i = 0; i < ans.length; i++) {
-              const c = clue.col + i;
-              if (c < size) grid[clue.row][c].letter = ans[i];
-            }
-          } else {
-            for (let i = 0; i < ans.length; i++) {
-              const r = clue.row + i;
-              if (r < size) grid[r][clue.col].letter = ans[i];
-            }
-          }
-        }
-      }
-      renderGrid();
-    }
-
-    function checkAnswers() {
-      const inputs = document.querySelectorAll('#play-grid input');
-      for (const input of inputs) {
-        const r = parseInt(input.dataset.row);
-        const c = parseInt(input.dataset.col);
-        const userChar = input.value.toUpperCase();
-        const correctChar = grid[r][c].letter.toUpperCase();
-        if (userChar === correctChar) {
-          input.style.color = 'blue';
-        } else {
-          input.style.color = 'red';
-        }
-      }
-    }
-
-    function newGame() {
-      createEmptyGrid();
-      assignClueNumbers();
-      renderGrid();
-      renderClues();
-      renderPlayGrid();
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      isLocked = false;
-      newGame();
-    });
-  function renderPlayClues() {
-  const acrossList = document.getElementById('play-across');
-  const downList = document.getElementById('play-down');
-  if (!acrossList || !downList) return;
-  acrossList.innerHTML = clues.across.map(clue => {
-    return `<div class="clue-row">${clue.number}. <span>${clue.clue || '(힌트 없음)'}</span></div>`;
-  }).join('');
-  downList.innerHTML = clues.down.map(clue => {
-    return `<div class="clue-row">${clue.number}. <span>${clue.clue || '(힌트 없음)'}</span></div>`;
-  }).join('');
-}
-
-function updateClue(number, direction, value) {
-  const clueList = clues[direction];
-  const clue = clueList.find(c => c.number === number);
-  if (clue) {
-    clue.clue = value;
-  }
-}
-
-applyAnswers = (function(original) {
-  return function() {
-    original();
-    renderPlayClues();
-  };
-})(applyAnswers);
-function lockPuzzle() {
-  isLocked = true;
-  const clueInputs = document.querySelectorAll('.clue-row input[type="text"]');
-  clueInputs.forEach(input => input.setAttribute('disabled', 'true'));
-  const answerInputs = document.querySelectorAll('.clue-row input.answer-box');
-  answerInputs.forEach(input => input.setAttribute('disabled', 'true'));
-}
-function lockPuzzle() {
-  isLocked = true;
-  const clueInputs = document.querySelectorAll('.clue-row input[type="text"]');
-  clueInputs.forEach(input => input.setAttribute('disabled', 'true'));
-  const answerInputs = document.querySelectorAll('.clue-row input.answer-box');
-  answerInputs.forEach(input => input.setAttribute('disabled', 'true'));
-
-  // 숨기기
-  document.querySelector("button[onclick='newGame()']").style.display = 'none';
-  document.getElementById('lock-button').style.display = 'none';
-
-  // 저장용 HTML 만들기
-  applyAnswers();
-      const html = document.documentElement.outerHTML;
-  const blob = new Blob([html], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  const now = new Date();
-  const yyyy = now.getFullYear();
-  const MM = String(now.getMonth() + 1).padStart(2, '0');
-  const dd = String(now.getDate()).padStart(2, '0');
-  const hh = String(now.getHours()).padStart(2, '0');
-  const mm = String(now.getMinutes()).padStart(2, '0');
-  const ss = String(now.getSeconds()).padStart(2, '0');
-  const filename = `crw_${yyyy}${MM}${dd}${hh}${mm}${ss}.html`;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-</script>
 </body>
 </html>
