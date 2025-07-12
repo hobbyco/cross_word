@@ -37,12 +37,11 @@
     </style>
 </head>
 <body>
-    <!-- 여기서부터 -->
     <h1>크로스워드 퍼즐</h1>
     <div class="puzzle-info">
-        <span>제작일 : 25/07/11  </span>
-        <span>회차: 1회  </span>
-        <span>주제: 90년대 가요 </span>
+        <span>생성일: 2025.07.12</span>
+        <span>회차: 2</span>
+        <span>주제: 한국영화</span>
     </div>
     <div class="main-container">
         <div id="grid-container"></div>
@@ -59,7 +58,6 @@
             <a href="https://naver.me/5TQM65TX" target="_blank">네이버폼으로 피드백 보내기 (뉴스레터 구독신청)</a>
         </div>
     </div>
-    <!-- 여기까지 -->
     <p id="result-message"></p>
     <div id="answer-container" style="display:none; margin-top: 30px;">
         <h2>정답</h2>
@@ -67,9 +65,9 @@
     </div>
 
     <script>
-        const gridState = [[1,1,1,0,0,1,0],[0,1,0,0,0,1,0],[0,1,0,1,1,1,1],[0,0,0,0,0,0,1],[0,1,0,0,1,1,1],[1,1,1,0,0,0,1],[0,1,0,0,0,0,1]];
-        const wordData = [{"id":1,"direction":"가로","row":0,"col":0,"length":3,"hint":"아예~ OOO 인 더 하우스 !!!","answer":"태사자"},{"id":2,"direction":"세로","row":0,"col":1,"length":3,"hint":"이현도 솔로 1집 앨범 타이틀","answer":"사자후"},{"id":3,"direction":"세로","row":0,"col":5,"length":3,"hint":"대표곡 : 뮤지컬","answer":"임상아"},{"id":4,"direction":"가로","row":2,"col":3,"length":4,"hint":"서태지와 아이들 데뷔곡","answer":"난알아요"},{"id":5,"direction":"세로","row":2,"col":6,"length":5,"hint":"\"이혜영 + 윤현숙\"이 부른 노래","answer":"요즘우리는"},{"id":6,"direction":"세로","row":4,"col":1,"length":3,"hint":"그룹 부활의 2대 보컬은 처음이지?","answer":"이승철"},{"id":7,"direction":"가로","row":4,"col":4,"length":3,"hint":"대표곡 : 훈련소로 가는 길","answer":"이장우"},{"id":8,"direction":"가로","row":5,"col":0,"length":3,"hint":"이오공감 중 '이'","answer":"이승환"}];
-        const solutionGrid = [["태","사","자",null,null,"임",null],[null,"자",null,null,null,"상",null],[null,"후",null,"난","알","아","요"],[null,null,null,null,null,null,"즘"],[null,"이",null,null,"이","장","우"],["이","승","환",null,null,null,"리"],[null,"철",null,null,null,null,"는"]]; // 글자 단위 정답
+        const gridState = [[0,0,1,0,0,1,1],[1,1,1,1,1,0,1],[1,0,1,0,0,0,0],[1,0,1,1,1,1,0],[1,0,0,0,1,0,0],[0,0,1,0,1,0,0],[0,1,1,1,0,0,0]];
+        const wordData = [{"id":1,"direction":"세로","row":0,"col":2,"length":4,"hint":" 징한 놈의 이 세상! 광대로 다시 만나 제대로 한 번 맞춰보자!","answer":"왕의남자"},{"id":2,"direction":"가로","row":0,"col":5,"length":2,"hint":"부산으로 가고 싶었던 도깨비","answer":"공유"},{"id":3,"direction":"세로","row":0,"col":6,"length":2,"hint":"한국 최초의 잠수함 소재 영화","answer":"유령"},{"id":4,"direction":"가로","row":1,"col":0,"length":5,"hint":"밥은 먹고 다니냐?","answer":"살인의추억"},{"id":4,"direction":"세로","row":1,"col":0,"length":4,"hint":"사실 제목 앞에 #이 들어가야 됨","answer":"살아있다"},{"id":5,"direction":"가로","row":3,"col":2,"length":4,"hint":"설경구, 변요한 주연의 흑백영화","answer":"자산어보"},{"id":6,"direction":"세로","row":3,"col":4,"length":3,"hint":"본업(배우)보다 요리로 더 유명한..","answer":"어남선"},{"id":7,"direction":"세로","row":5,"col":2,"length":2,"hint":"영화 부산행 속편","answer":"반도"},{"id":8,"direction":"가로","row":6,"col":1,"length":3,"hint":"멜로 퀸. 칸의 여왕","answer":"전도연"}];
+        const solutionGrid = [[null,null,"왕",null,null,"공","유"],["살","인","의","추","억",null,"령"],["아",null,"남",null,null,null,null],["있",null,"자","산","어","보",null],["다",null,null,null,"남",null,null],[null,null,"반",null,"선",null,null],[null,"전","도","연",null,null,null]]; // 글자 단위 정답
 
         document.addEventListener('DOMContentLoaded', () => {
             const gridContainer = document.getElementById('grid-container');
@@ -145,7 +143,7 @@
                 }
 
                 if (allCellsAreCorrect) {
-                    resultMessage.textContent = '축하합니다! 모든 정답을 맞혔습니다! 🎉';
+                    resultMessage.textContent = '축하합니다! 모든 정답을 맞혔습니다!  ';
                     resultMessage.style.color = 'green';
                 } else {
                     resultMessage.textContent = '아쉽네요. 틀린 글자가 있습니다. 다시 확인해보세요.';
