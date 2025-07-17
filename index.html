@@ -75,23 +75,32 @@
         </main>
         <!-- 메인 콘텐츠 섹션 끝 -->
 
-        <!-- 푸터 섹션 -->
-        <footer class="text-center mt-8 mb-4 flex flex-col items-center">
-            <a href="https://naver.me/5TQM65TX" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600 underline">
-                네이버폼으로 피드백 보내기 (뉴스레터 구독신청)
-            </a>
-            <!-- 개발자 홈페이지 링크 추가 -->
-            <a href="https://hobbyco.github.io/pds_root/index.html" target="_blank" rel="noopener noreferrer" class="mt-2 text-sm text-gray-500 hover:text-gray-700 underline">
-                개발자 홈페이지 바로가기
-            </a>
+        <!-- 푸터 섹션: footer.html 파일을 불러와서 채웁니다. -->
+        <footer id="footer-placeholder" class="text-center mt-8 mb-4">
+            <!-- 이 내용은 footer.html 파일로 대체됩니다. -->
         </footer>
         <!-- 푸터 섹션 끝 -->
 
     </div>
 
     <script>
-        // 여기에 JavaScript 코드를 추가할 수 있습니다.
-        console.log("페이지가 로드되었습니다.");
+        // 페이지가 로드되면 공통 푸터를 불러오는 스크립트
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('footer.html') // 같은 폴더에 있는 footer.html을 불러옵니다.
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('footer.html 파일을 찾을 수 없습니다.');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('푸터 로딩 에러:', error);
+                    document.getElementById('footer-placeholder').innerHTML = '<p>푸터를 불러오는 데 실패했습니다.</p>';
+                });
+        });
     </script>
 
 </body>
